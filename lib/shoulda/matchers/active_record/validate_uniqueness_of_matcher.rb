@@ -301,7 +301,7 @@ module Shoulda
 
         def create_record_in_database(options = {})
           @original_subject.tap do |instance|
-            instance.__send__("#{@attribute}=", value_for_new_record(options))
+            instance.__send__("#{@attribute}=", !!value_for_new_record(options))
             ensure_secure_password_set(instance)
             instance.save(validate: false)
             @created_record = instance

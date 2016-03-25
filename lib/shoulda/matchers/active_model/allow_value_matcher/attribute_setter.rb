@@ -80,7 +80,10 @@ module Shoulda
           end
 
           def set
-            object.public_send("#{attribute_name}=", value_written)
+            value_to_set = value_written
+            column = model.columns.find { |c| c.name == attribute_name.to_s }
+            value_to_set = !!value_to_set if column && column.sql_type == 'boolean'
+            object.public_send("#{attribute_name}=", value_to_set)
             after_set_callback.call
 
             @result_of_checking = successful_check

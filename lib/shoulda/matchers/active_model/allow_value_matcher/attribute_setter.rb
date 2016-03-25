@@ -81,7 +81,7 @@ module Shoulda
 
           def set
             value_to_set = value_written
-            column = model.columns.find { |c| c.name == attribute_name.to_s }
+            column = model.columns.find { |c| c.methods.include?(:name) && c.name == attribute_name.to_s }
             value_to_set = !!value_to_set if column && column.sql_type == 'boolean'
             object.public_send("#{attribute_name}=", value_to_set)
             after_set_callback.call
